@@ -1,0 +1,162 @@
+﻿@model UsersEdit.Models.ViewModels.Profile.AddUserViewModel
+
+@{
+    ViewBag.Title = "Add new user";
+
+    Dictionary<String, List<Object>> dates = Functions.GetDates();
+}
+
+<h2>Add new user</h2>
+
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            $.validator.addMethod('requiredif', function (value, element, params) {
+                if (value == null && $('#IsActive').prop('checked', false))
+                    return false;
+                return true;
+            });
+
+            $.validator.unobtrusive.adapters.add('requiredif', {}, function (options) {
+                options.rules['requiredif'] = true;
+                options.messages['requiredif'] = options.message;
+            });
+        }
+    )
+</script>  
+
+@using (Html.BeginForm("Add", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        <br />
+        <h4>New user</h4>
+
+        <br />
+        <br />
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Login, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Login)
+                @Html.ValidationMessageFor(m => m.Login)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.RepeatPassword, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.RepeatPassword)
+                @Html.ValidationMessageFor(m => m.RepeatPassword)
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Phone, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Phone)
+                @Html.ValidationMessageFor(m => m.Phone)
+            </div>
+        </div>
+
+        <br />
+        <br />
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.FirstName)
+                @Html.ValidationMessageFor(m => m.FirstName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.LastName)
+                @Html.ValidationMessageFor(m => m.LastName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.IsActive, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model == null || Model.IsActive)
+                {
+                    @Html.CheckBoxFor(m => m.IsActive, new { @onclick = "onIsActiveChange()", @checked = "true"}); 
+                }
+                else
+                {
+                    @Html.CheckBoxFor(m => m.IsActive, new { @onclick = "onIsActiveChange()" });
+                }
+                @Html.ValidationMessageFor(m => m.IsActive)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.BlockDescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model == null || Model.IsActive)
+                {
+                    @Html.TextAreaFor(m => m.BlockDescription, new { @disabled = "true" });
+                }
+                else
+                {
+                    @Html.TextAreaFor(m => m.BlockDescription); 
+                }
+                   
+                @Html.ValidationMessageFor(m => m.BlockDescription)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Photo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="Photo" name="Photo" accept="image/*" />
+            </div>
+        </div>
+
+        <div class="form-group">
+        <label for="BirdthDay_Month" class="control-label col-md-2">BirthDate</label>
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.BirthDay.Month,
+            new SelectList(dates["Months"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Month.ToString() : "--Month--"))
+            @Html.DropDownListFor(m => m.BirthDay.Day,
+            new SelectList(dates["Days"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Day.ToString() : "--Day--"))
+            @Html.DropDownListFor(m => m.BirthDay.Year,
+            new SelectList(dates["Years"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Year.ToString() : "--Year--"))
+            @Html.ValidationMessageFor(m => m.BirthDay)
+        </div>
+    </div>
+        <br />
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

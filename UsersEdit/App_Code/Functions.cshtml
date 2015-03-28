@@ -1,0 +1,31 @@
+﻿@functions
+{
+    public static Dictionary<String, List<Object> > GetDates()
+    {
+        List<object> months = new List<object> { "--Month--" };
+        for (int i = 1; i <= 12; ++i)
+        {
+            months.Add(i.ToString());
+        }
+
+        List<object> days = new List<object> { "--Day--" };
+        for (int i = 1; i <= 31; ++i)
+        {
+            days.Add(i.ToString());
+        }
+
+        List<object> years = new List<object> { "--Year--" };
+
+        for (int i = DateTime.Now.Year; i >= 1900; --i)
+        {
+            years.Add(i.ToString());
+        }
+
+        Dictionary<String, List<Object>> result = new Dictionary<string, List<object>>();
+
+        result.Add("Months", months);
+        result.Add("Days", days);
+        result.Add("Years", years);
+        return result;
+    }
+}

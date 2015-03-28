@@ -1,0 +1,168 @@
+﻿@model UsersEdit.Models.ViewModels.Profile.EditUserViewModel
+
+@{
+    ViewBag.Title = "Edit user";
+
+    Dictionary<String, List<Object>> dates = Functions.GetDates();
+
+    string day = Model.BirthDay.Day.ToString();
+    string month = Model.BirthDay.Month.ToString();
+    string year = Model.BirthDay.Month.ToString();
+}
+
+<h2>Edit user</h2>
+
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            $("#submit_button").click(
+                function () {
+                    if ($('#editform').valid()) {
+                        $.ajax(
+                        {
+                            url: "/Profile/GoingToEdit",
+                            dataType: "json",
+                            success: function (data, textStatus) {
+                                var result = confirm(data);
+                                if (result == true)
+                                    document.forms["editform"].submit();
+                            }
+                        });
+                    }
+                }
+            );
+        },
+        function () {
+            $.validator.addMethod('requiredif', function (value, element, params) {
+                if (value == null && $('#IsActive').prop('checked', false))
+                    return false;
+                return true;
+            });
+
+            $.validator.unobtrusive.adapters.add('requiredif', {}, function (options) {
+                options.rules['requiredif'] = true;
+                options.messages['requiredif'] = options.message;
+            });
+        }
+    )
+</script>
+
+@using (Html.BeginForm("Edit", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", name = "editform", id = "editform"}))
+{
+    <div class="form-horizontal">
+        <br />
+        <h4>Edit user</h4>
+
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Phone, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Phone)
+                @Html.ValidationMessageFor(m => m.Phone)
+            </div>
+        </div>
+
+        <br />
+        <br />
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.FirstName)
+                @Html.ValidationMessageFor(m => m.FirstName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.LastName)
+                @Html.ValidationMessageFor(m => m.LastName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.IsActive, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model == null || Model.IsActive)
+                {
+                    @Html.CheckBoxFor(m => m.IsActive, new { @onclick = "onIsActiveChange()", @checked = "true" });
+                }
+                else
+                {
+                    @Html.CheckBoxFor(m => m.IsActive, new { @onclick = "onIsActiveChange()" });
+                }
+                @Html.ValidationMessageFor(m => m.IsActive)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.BlockDescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @if (Model == null || Model.IsActive)
+               {
+                   @Html.TextAreaFor(m => m.BlockDescription, new { @disabled = "true" });
+               }
+               else
+               {
+                   @Html.TextAreaFor(m => m.BlockDescription);
+               }
+               @Html.ValidationMessageFor(m => m.BlockDescription)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Photo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="Photo" name="Photo" accept="image/*" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.RemovePhoto, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(m => m.RemovePhoto)
+                @Html.ValidationMessageFor(m => m.RemovePhoto)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="BirdthDay_Month" class="control-label col-md-2">BirthDate</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.BirthDay.Month,
+            new SelectList(dates["Months"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Month.ToString() : "--Month--"))
+                @Html.DropDownListFor(m => m.BirthDay.Day,
+            new SelectList(dates["Days"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Day.ToString() : "--Day--"))
+                @Html.DropDownListFor(m => m.BirthDay.Year,
+            new SelectList(dates["Years"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Year.ToString() : "--Year--"))
+                @Html.ValidationMessageFor(m => m.BirthDay)
+            </div>
+        </div>
+        <br />
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="submit_button" type="button" value="Edit" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+
