@@ -22,6 +22,9 @@
                 </button>
                 @Html.ActionLink("Home", "Index", "Home", null, new { @class = "navbar-brand" })
             </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+            </div>
         </div>
     </div>
     <div class="container body-content">

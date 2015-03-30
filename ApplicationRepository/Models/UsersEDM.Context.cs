@@ -27,5 +27,6 @@ namespace ApplicationRepository.Models
     
         public virtual DbSet<Image> Image { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Role> Role { get; set; }
     }
 }

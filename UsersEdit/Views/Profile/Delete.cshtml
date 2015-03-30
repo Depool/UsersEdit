@@ -5,115 +5,10 @@
 }
 
 <h4>Delete user</h4>
+
+@Html.Partial("_UserInfoPartial")
+
 <div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dd>
-            <b>
-                @Html.DisplayNameFor(m => m.Login)
-            </b>
-        </dd>
-
-        <dd>
-            @Html.DisplayFor(m => m.Login)
-        </dd>
-
-        <dd>
-            <b>
-                @Html.DisplayNameFor(m => m.Email)
-            </b>
-        </dd>
-
-        <dd>
-            @Html.DisplayFor(m => m.Email)
-        </dd>
-
-        <dd>
-            <b>
-                @Html.DisplayNameFor(m => m.Phone)
-            </b>
-        </dd>
-
-        <dd>
-
-            @Html.DisplayFor(m => m.Phone)
-        </dd>
-
-        <dd>
-            <b>
-                @Html.DisplayNameFor(m => m.FirstName)
-            </b>
-        </dd>
-
-        <dd>
-            @Html.DisplayFor(m => m.FirstName)
-        </dd>
-
-
-        <dd>
-            <b>
-                @Html.DisplayNameFor(m => m.LastName)
-            </b>
-        </dd>
-
-        <dd>
-            @Html.DisplayFor(m => m.LastName)
-        </dd>
-
-        <dd>
-            <b>
-                @Html.DisplayNameFor(m => m.BlockDescription)
-            </b>
-        </dd>
-
-        <dd>
-            @Html.DisplayFor(m => m.BlockDescription)
-        </dd>
-
-        <dd>
-            <b>
-                @Html.DisplayNameFor(m => m.BirthDay)
-            </b>
-        </dd>
-
-        <dd>
-            @Html.DisplayFor(m => m.BirthDay)
-        </dd>
-  
-        <dd>
-            <b>
-                Photo
-            </b>
-        </dd>
-
-        <dd>
-            @if (Model.Image != null)
-            { 
-                <img id="image" src='@Url.Action("GetPhoto", "Profile", new { id = Model.Id})' />
-            }
-        </dd>
-
-        <dd>
-            <b>
-                @Html.DisplayNameFor(m => m.DateCreated)
-            </b>
-        </dd>
-
-        <dd>
-            @Html.DisplayFor(m => m.DateCreated)
-        </dd>
-
-        <dd>
-            <b>
-                @Html.DisplayNameFor(m => m.DateUpdated)
-            </b>
-        </dd>
-
-        <dd>
-            @Html.DisplayFor(m => m.DateUpdated)
-        </dd>
-    </dl>
-
     @using (Html.BeginForm("Delete", "Profile", FormMethod.Post))
     {
         <div class="form-actions no-color">
@@ -121,6 +16,4 @@
             @Html.ActionLink("Back to List", "Index")
         </div>
     }
-
 </div>
-

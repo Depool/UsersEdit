@@ -1,0 +1,13 @@
+﻿@model ApplicationRepository.Models.User
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h4>UserDetails</h4>
+
+@Html.Partial("_UserInfoPartial")
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

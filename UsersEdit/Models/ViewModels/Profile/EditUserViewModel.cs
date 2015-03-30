@@ -12,6 +12,5 @@ namespace UsersEdit.Models.ViewModels.Profile
     public class EditUserViewModel : AddEditViewModelBase
     {
         public bool RemovePhoto { get; set; }
-
     }
 }

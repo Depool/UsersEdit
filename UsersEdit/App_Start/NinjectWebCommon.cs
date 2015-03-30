@@ -66,9 +66,11 @@ namespace UsersEdit.App_Start
         {
             kernel.Bind<IUserRepository>().To<UserRepository>();
             kernel.Bind<IImageRepository>().To<ImageRepository>();
+            kernel.Bind<IRoleRepository>().To<RoleRepository>();
 
             //kernel.Bind<IUserRepository>().To<ADOSqlUserRepository>();
             //kernel.Bind<IImageRepository>().To<ADOSqlImageRepository>();
+            //kernel.Bind<IRoleRepository>().To<ADOSqlRoleRepository>();
         }        
     }
 }

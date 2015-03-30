@@ -35,6 +35,10 @@
             </td>
 
             <td>
+                @Html.DisplayFor(model => user.Role.Name)
+            </td>
+
+            <td>
                 @if (user.Image != null)
                 {
                     <img id="image" src='@Url.Action("GetPhoto", "Profile", new { id = user.Id})' />
@@ -46,8 +50,17 @@
             </td>
 
             <td>
-                  @Html.ActionLink("Edit", "Edit", new { id = user.Id }) | 
-                  @Html.ActionLink("Delete", "Delete", new { id = user.Id })
+                @if (User.IsInRole("admin"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = user.Id }) <span>|</span>
+                    @Html.ActionLink("Details", "Details", new { id = user.Id}) <span>|</span>
+                    @Html.ActionLink("Delete", "Delete", new { id = user.Id })
+                }
+                else
+                {
+                    @Html.ActionLink("Details", "Details", new { id = user.Id})
+                }
+                
             </td>
         </tr>
     }
@@ -88,6 +101,10 @@
 
         <th>
             @Html.DisplayNameFor(model => model.Email)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
         </th>
 
         <th>

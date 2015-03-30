@@ -132,29 +132,36 @@
                 <input type="file" id="Photo" name="Photo" accept="image/*" />
             </div>
         </div>
-
         <div class="form-group">
-        <label for="BirdthDay_Month" class="control-label col-md-2">BirthDate</label>
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m.BirthDay.Month,
-            new SelectList(dates["Months"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Month.ToString() : "--Month--"))
-            @Html.DropDownListFor(m => m.BirthDay.Day,
-            new SelectList(dates["Days"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Day.ToString() : "--Day--"))
-            @Html.DropDownListFor(m => m.BirthDay.Year,
-            new SelectList(dates["Years"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Year.ToString() : "--Year--"))
-            @Html.ValidationMessageFor(m => m.BirthDay)
-        </div>
-    </div>
-        <br />
-        <br />
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add" class="btn btn-default" />
+           <label for="BirdthDay_Month" class="control-label col-md-2">BirthDate</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.BirthDay.Month,
+                new SelectList(dates["Months"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Month.ToString() : "--Month--"))
+                @Html.DropDownListFor(m => m.BirthDay.Day,
+                new SelectList(dates["Days"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Day.ToString() : "--Day--"))
+                @Html.DropDownListFor(m => m.BirthDay.Year,
+                new SelectList(dates["Years"], (Model != null && Model.BirthDay != new DateTime()) ? Model.BirthDay.Year.ToString() : "--Year--"))
+                @Html.ValidationMessageFor(m => m.BirthDay)
             </div>
-        </div>
+         </div>
 
-    </div>
+        <div class="form-group">
+            <label for="RoleId" class="control-label col-md-2">Role</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("RoleId")
+                    @Html.ValidationMessageFor(model => model.RoleId)
+                </div>
+        </div>
+</div>
+        
+   <br />
+   <br />
+
+   <div class="form-group">
+       <div class="col-md-offset-2 col-md-10">
+           <input type="submit" value="Add" class="btn btn-default" />
+       </div>
+   </div>
 }
 
 <div>

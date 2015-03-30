@@ -35,5 +35,9 @@ namespace UsersEdit.Models.ViewModels.Profile
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
         public HttpPostedFileBase Photo { get; set; }
+
+        [Required]
+        public int RoleId { get; set; }
+
     }
 }

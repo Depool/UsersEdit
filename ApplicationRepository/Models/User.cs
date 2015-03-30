@@ -28,7 +28,9 @@ namespace ApplicationRepository.Models
         public System.DateTime DateCreated { get; set; }
         public System.DateTime DateUpdated { get; set; }
         public Nullable<int> ImageId { get; set; }
+        public int RoleId { get; set; }
     
         public virtual Image Image { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

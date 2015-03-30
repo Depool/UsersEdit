@@ -10,22 +10,81 @@ using ApplicationRepository.Interface;
 using ApplicationRepository.Concrete.ADOSql;
 using UsersEdit.Models.ViewModels.Profile;
 using UsersEdit.CustomMappers;
+using UsersEdit.Infrastructure.Authentication;
+using UsersEdit.CustomAttributes.Authorization;
+using UsersEdit.Infrastructure.Algo;
 
 namespace UsersEdit.Controllers
 {
+    [CustomAuthorized]
     public class ProfileController : Controller
     {
         private IUserRepository dalUser;
         private IImageRepository dalImage;
+        private IRoleRepository dalRole;
 
-        public ProfileController(IUserRepository userRepository, IImageRepository imageRepository)
+        public ProfileController(IUserRepository userRepository, 
+                                 IImageRepository imageRepository,
+                                 IRoleRepository roleRepository)
         {
             dalUser = userRepository;
             dalImage = imageRepository;
+            dalRole = roleRepository;
+
             ProfileMappers.UserRepository = userRepository;
             ProfileMappers.ImageRepository = imageRepository;
         }
 
+        [HttpGet]
+
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (Url.IsLocalUrl(returnUrl))
+                    return Redirect(returnUrl);
+                else
+                    return RedirectToAction("Index", "Profile");
+            }
+            ViewBag.InvalidCredentials = false;
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Login(LoginViewModel user, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                var signer = new FormsAuthenticationService(this.HttpContext);
+                string passWord = PasswordHasher.Hash(user.Password).Hash;
+
+                var realUser = dalUser.FindFirst(usr => usr.Login == user.UserName && 
+                                                 usr.Password == passWord);
+                if (realUser != null)
+                {
+                    signer.SignIn(realUser, user.RememberMe);
+                    if (returnUrl != null && Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+                    else
+                        return RedirectToAction("Index", "Profile");
+                }
+            }
+            ViewBag.InvalidCredentials = true;
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            var signer = new FormsAuthenticationService(this.HttpContext);
+            signer.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+
+        
         public ActionResult Index()
         {
             return View(dalUser.GetAll());
@@ -37,18 +96,22 @@ namespace UsersEdit.Controllers
             return new FileStreamResult(photo, "image/jpeg");
         }
 
+        [CustomAuthorized(Roles="admin")]
         public ActionResult Add()
         {
+            ViewBag.RoleId = new SelectList(dalRole.GetAll(), "Id", "Name");
             return View();
         }
 
         [HttpPost]
 
+        [CustomAuthorized(Roles = "admin")]
         public ActionResult Add(AddUserViewModel user)
         {
             if (ModelState.IsValid)
             {
                 UserInfo newUserInfo = ProfileMappers.AddViewModelToUser(user);
+                newUserInfo.User.Password = PasswordHasher.Hash(user.Password).Hash;
                 if (newUserInfo.UserPhoto != null)
                 {
                     dalImage.Add(newUserInfo.UserPhoto);
@@ -64,9 +127,11 @@ namespace UsersEdit.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
+            ViewBag.RoleId = new SelectList(dalRole.GetAll(), "Id", "Name", user.RoleId);
             return View(user);
         }
 
+        [CustomAuthorized(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -79,15 +144,19 @@ namespace UsersEdit.Controllers
             if (selectedUser == null)
                 return HttpNotFound();
 
+            ViewBag.RoleId = new SelectList(dalRole.GetAll(), "Id", "Name", selectedUser.RoleId);
+
             return View(ProfileMappers.UserToEditViewModel(selectedUser));
         }
 
         [HttpPost]
+
+        [CustomAuthorized(Roles = "admin")]
         public ActionResult Edit(EditUserViewModel editVM)
         {
+            var user = dalUser.GetById(editVM.Id);
             if (ModelState.IsValid)
             {
-                var user = dalUser.GetById(editVM.Id);
                 if (user == null)
                     return HttpNotFound("User not found");
 
@@ -108,17 +177,18 @@ namespace UsersEdit.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
+            ViewBag.RoleId = new SelectList(dalRole.GetAll(), "Id", "Name", user.RoleId);
             return View(editVM);
-            
         }
 
+        [CustomAuthorized(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
+            
             var selectedUser = dalUser.GetById((int)id);
 
             if (selectedUser == null)
@@ -128,6 +198,8 @@ namespace UsersEdit.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+
+        [CustomAuthorized(Roles = "admin")]
         public ActionResult Delete(int id)
         {
             try
@@ -147,6 +219,20 @@ namespace UsersEdit.Controllers
             {
                 return RedirectToAction("Delete", id);
             }
+        }
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var selectedUser = dalUser.GetById((int)id);
+
+            if (selectedUser == null)
+                return HttpNotFound();
+
+            return View(selectedUser);
         }
 
         public ActionResult ValidateLogin(string Login)

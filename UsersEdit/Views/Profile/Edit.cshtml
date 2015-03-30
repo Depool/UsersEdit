@@ -126,7 +126,7 @@
                 <input type="file" id="Photo" name="Photo" accept="image/*" />
             </div>
         </div>
-
+        
         <div class="form-group">
             @Html.LabelFor(m => m.RemovePhoto, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -147,6 +147,15 @@
                 @Html.ValidationMessageFor(m => m.BirthDay)
             </div>
         </div>
+
+            <div class="form-group">
+                @Html.Label("Role", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("RoleId")
+                    @Html.ValidationMessageFor(model => model.RoleId)
+                </div>
+            </div>
+        </div>
         <br />
         <br />
 
@@ -155,8 +164,6 @@
                 <input id="submit_button" type="button" value="Edit" class="btn btn-default" />
             </div>
         </div>
-
-    </div>
 }
 
 <div>

@@ -66,15 +66,21 @@
   <ItemGroup>
     <Compile Include="Concrete\ADOSql\ADOSqlGenericRepository.cs" />
     <Compile Include="Concrete\ADOSql\ADOSqlImageRepository.cs" />
+    <Compile Include="Concrete\ADOSql\ADOSqlRoleRepository.cs" />
     <Compile Include="Concrete\ADOSql\ADOSqlUserRepository.cs" />
     <Compile Include="Concrete\Entity\GenericRepository.cs" />
     <Compile Include="Concrete\Entity\ImageRepository.cs" />
+    <Compile Include="Concrete\Entity\RoleRepository.cs" />
     <Compile Include="Concrete\Entity\UserRepository.cs" />
     <Compile Include="EntitiesConverter\EntitiesConverter.cs" />
     <Compile Include="Interface\IGenericRepository.cs" />
     <Compile Include="Interface\IImageRepository.cs" />
+    <Compile Include="Interface\IRoleRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Models\Image.cs">
+      <DependentUpon>UsersEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs">
       <DependentUpon>UsersEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
@@ -84,6 +90,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UsersEDM.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UsersEDM.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsersEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UsersEDM.Designer.cs">
       <AutoGen>True</AutoGen>

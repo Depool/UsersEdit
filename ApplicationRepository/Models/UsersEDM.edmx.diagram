@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="UsersModel.Image" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="UsersModel.User" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="UsersModel.FK_Image_To_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="UsersModel.Role" Width="1.5" PointX="5.75" PointY="0.5" />
+        <AssociationConnector Association="UsersModel.FK_Role_To_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

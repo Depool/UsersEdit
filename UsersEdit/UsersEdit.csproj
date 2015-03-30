@@ -185,16 +185,26 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="CustomAttributes\Authorization\CustomAuthorized.cs" />
     <Compile Include="CustomMappers\ProfileMappers.cs" />
-    <Compile Include="CustomValidationAttributes\RequiredIf.cs" />
+    <Compile Include="CustomAttributes\Validation\RequiredIf.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Infrastructure\Algo\PasswordHasher.cs" />
+    <Compile Include="Infrastructure\Authentication\FormsAuthenticationService.cs" />
+    <Compile Include="Infrastructure\Authentication\Interface\IFormsAuthenticationService.cs" />
+    <Compile Include="Infrastructure\Authentication\Interface\IPrincipalService.cs" />
+    <Compile Include="Infrastructure\Authentication\UserIdentity.cs" />
+    <Compile Include="Infrastructure\Authentication\UserPrincipal.cs" />
+    <Compile Include="Infrastructure\Authentication\UsersEditPrincipalService.cs" />
     <Compile Include="ModelBinders\DateTimeCustomBinder.cs" />
+    <Compile Include="Infrastructure\Authentication\UserCookie.cs" />
     <Compile Include="Models\ViewModels\Profile\AddEditViewModelBase.cs" />
     <Compile Include="Models\ViewModels\Profile\AddUserViewModel.cs" />
     <Compile Include="Models\ViewModels\Profile\EditUserViewModel.cs" />
+    <Compile Include="Models\ViewModels\Profile\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -245,6 +255,11 @@
     <Content Include="Views\Profile\Add.cshtml" />
     <Content Include="Views\Profile\Delete.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
+    <Content Include="Views\Profile\Login.cshtml" />
+    <Content Include="Views\Profile\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Profile\Details.cshtml" />
+    <Content Include="Views\Profile\_UserInfoPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

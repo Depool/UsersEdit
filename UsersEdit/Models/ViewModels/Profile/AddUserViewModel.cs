@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using UsersEdit.ModelBinders;
 using System.ComponentModel.DataAnnotations;
+using System.Collections;
 
 
 namespace UsersEdit.Models.ViewModels.Profile
