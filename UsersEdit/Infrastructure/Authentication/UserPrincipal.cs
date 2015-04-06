@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Web;
 
-namespace UsersEdit.Infrastructure.Authentication
+namespace UsersEdit.Authentication
 {
     public class UserPrincipal : IPrincipal
     {

@@ -15,6 +15,9 @@ namespace UsersEdit.App_Start
     using ApplicationRepository.Concrete.Entity;
     using Ninject.Modules;
     using Ninject.Extensions.Factory;
+    using Infrastructure.Logging.Concrete.Nlog;
+    using Infrastructure.Logging.Interface;
+   // using Infrastructure.
 
     public interface IRepositoryFactory
     {
@@ -39,6 +42,21 @@ namespace UsersEdit.App_Start
             //Bind<IMailMessageRepository>().To<ADOSqlMailMessageRepository>();
             
             Bind<IRepositoryFactory>().ToFactory();
+        }
+    }
+
+    public interface ILoggerFactory
+    {
+        ILogger CreateDefaultLogger();
+    }
+
+    public class LoggerModule : NinjectModule
+    {
+        public override void Load()
+        {
+            Bind<ILogger>().To<NLogLogger>();
+
+            Bind<ILoggerFactory>().ToFactory();
         }
     }
 

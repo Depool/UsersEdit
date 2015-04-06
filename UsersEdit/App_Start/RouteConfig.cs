@@ -11,9 +11,16 @@ namespace UsersEdit
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            routes.IgnoreRoute("elmah.axd");
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("Email");
             routes.IgnoreRoute("Email/{action}");
+
+            routes.MapRoute(
+                name: "Admin_elmah",
+                url: "Admin/elmah/{type}",
+                defaults: new { action = "Index", controller = "AdminElmah", type = UrlParameter.Optional }
+            );
 
             routes.MapRoute(
                 name: "Default",

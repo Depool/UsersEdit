@@ -10,7 +10,7 @@ using ApplicationRepository.Interface;
 using ApplicationRepository.Concrete.ADOSql;
 using UsersEdit.Models.ViewModels.Profile;
 using UsersEdit.CustomMappers;
-using UsersEdit.Infrastructure.Authentication;
+using UsersEdit.Authentication;
 using UsersEdit.CustomAttributes.Authorization;
 using Infrastructure.Algo;
 using ApplicationBusinessLayer.Mail;

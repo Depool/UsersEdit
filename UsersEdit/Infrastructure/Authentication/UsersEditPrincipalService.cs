@@ -8,7 +8,7 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
 
-namespace UsersEdit.Infrastructure.Authentication
+namespace UsersEdit.Authentication
 {
     public class UsersEditPrincipalService : IPrincipalService
     {

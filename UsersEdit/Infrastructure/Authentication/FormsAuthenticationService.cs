@@ -8,7 +8,7 @@ using System.Web.Security;
 using Infrastructure.Authentication.Interface;
 using Infrastructure.Authentication;
 
-namespace UsersEdit.Infrastructure.Authentication
+namespace UsersEdit.Authentication
 {
     public class FormsAuthenticationService : IFormsAuthenticationService
     {
