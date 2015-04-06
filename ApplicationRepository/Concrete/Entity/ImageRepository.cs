@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ApplicationRepository.Models;
 using ApplicationRepository.Interface;
+using Infrastructure.Repository.Generic.Concrete.Entity;
 
 namespace ApplicationRepository.Concrete.Entity
 {
@@ -16,11 +17,6 @@ namespace ApplicationRepository.Concrete.Entity
             if (content.Length > 0)
             {
                 Image newImage = new Image();
-
-                if (context.Image.Count() == 0)
-                    newImage.Id = 1;
-                else
-                    newImage.Id = 1 + context.Image.Max(img => img.Id);
 
                 newImage.ImageName = name;
                 newImage.ImageContent = content;

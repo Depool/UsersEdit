@@ -12,7 +12,10 @@ using UsersEdit.Models.ViewModels.Profile;
 using UsersEdit.CustomMappers;
 using UsersEdit.Infrastructure.Authentication;
 using UsersEdit.CustomAttributes.Authorization;
-using UsersEdit.Infrastructure.Algo;
+using Infrastructure.Algo;
+using ApplicationBusinessLayer.Mail;
+using UsersEdit.App_Start;
+using ApplicationRepository.Models;
 
 namespace UsersEdit.Controllers
 {
@@ -22,17 +25,17 @@ namespace UsersEdit.Controllers
         private IUserRepository dalUser;
         private IImageRepository dalImage;
         private IRoleRepository dalRole;
+        private IMailMessageRepository dalMail;
 
-        public ProfileController(IUserRepository userRepository, 
-                                 IImageRepository imageRepository,
-                                 IRoleRepository roleRepository)
+        public ProfileController(IRepositoryFactory factory)
         {
-            dalUser = userRepository;
-            dalImage = imageRepository;
-            dalRole = roleRepository;
+            dalRole = factory.CreateRoleRepository();
+            dalUser = factory.CreateUserRepository();
+            dalImage = factory.CreateImageRepository();
+            dalMail = factory.CreateMailMessageRepository();
 
-            ProfileMappers.UserRepository = userRepository;
-            ProfileMappers.ImageRepository = imageRepository;
+            ProfileMappers.UserRepository = dalUser;
+            ProfileMappers.ImageRepository = dalImage;
         }
 
         [HttpGet]
@@ -124,6 +127,20 @@ namespace UsersEdit.Controllers
                     dalUser.SaveChanges();
                 }
 
+                string subject = String.Format("Регистрация пользователя {0}", user.Login);
+                EmailController mailGetter = new EmailController();
+
+                MailMessage mailToSend = new MailMessage
+                {
+                    From = String.Empty,
+                    To = ((UserPrincipal)User).Information.Email,
+                    Subject = subject,
+                    Body = mailGetter.EmailToText(mailGetter.Registration(String.Format("Регистрация пользователя {0}", user.Login),
+                                                                         ((UserPrincipal)User).Information.Email)).Content
+                };
+                dalMail.Add(mailToSend);
+                dalMail.SaveChanges();
+
                 return RedirectToAction("Index", "Profile");
             }
 
@@ -160,6 +177,24 @@ namespace UsersEdit.Controllers
                 if (user == null)
                     return HttpNotFound("User not found");
 
+                if (user.IsActive && !editVM.IsActive)
+                {
+                    string subject = String.Format("Пользователь {0} забанен", user.Login);
+                    EmailController mailGetter = new EmailController();
+
+                    MailMessage mailToSend = new MailMessage
+                    {
+                        From = String.Empty,
+                        To = ((UserPrincipal)User).Information.Email,
+                        Subject = subject,
+                        Body = mailGetter.EmailToText(mailGetter.Block(String.Format("Пользователь {0} добавлен в бан список", user.Login),
+                                                                       editVM.BlockDescription,
+                                                                       ((UserPrincipal)User).Information.Email)).Content
+                    };
+                    dalMail.Add(mailToSend);
+                    dalMail.SaveChanges();
+                }
+
                 UserInfo editedUserInfo = ProfileMappers.EditViewModelToUser(editVM, user);
 
                 if (editedUserInfo.UserPhoto != null)
@@ -173,7 +208,6 @@ namespace UsersEdit.Controllers
                     dalUser.Modify(editedUserInfo.User);
                     dalUser.SaveChanges();
                 }
-
                 return RedirectToAction("Index", "Profile");
             }
 
@@ -210,7 +244,6 @@ namespace UsersEdit.Controllers
 
                 if (user.Image != null)
                     dalImage.Delete(user.Image);
-                //dalImage.SaveChanges();
                 dalUser.Delete(user);
                 dalUser.SaveChanges();
                 return RedirectToAction("Index");

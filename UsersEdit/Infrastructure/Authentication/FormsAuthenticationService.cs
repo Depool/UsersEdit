@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
-using UsersEdit.Infrastructure.Authentication.Interface;
+using Infrastructure.Authentication.Interface;
+using Infrastructure.Authentication;
 
 namespace UsersEdit.Infrastructure.Authentication
 {
@@ -35,7 +36,8 @@ namespace UsersEdit.Infrastructure.Authentication
                 LastName = user.LastName,
                 BirthDate = user.BirthDay,
                 Role = user.Role.Name,
-                RememberMe = createPersistentCookie
+                RememberMe = createPersistentCookie,
+                Email = user.Email
             };
 
             string userData = JsonConvert.SerializeObject(cookie);

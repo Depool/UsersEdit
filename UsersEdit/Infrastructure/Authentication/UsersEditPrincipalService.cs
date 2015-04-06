@@ -1,4 +1,5 @@
 ﻿using ApplicationRepository.Interface;
+using Infrastructure.Authentication.Interface;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
-using UsersEdit.Infrastructure.Authentication.Interface;
 
 namespace UsersEdit.Infrastructure.Authentication
 {

@@ -12,6 +12,8 @@ namespace UsersEdit
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("Email");
+            routes.IgnoreRoute("Email/{action}");
 
             routes.MapRoute(
                 name: "Default",

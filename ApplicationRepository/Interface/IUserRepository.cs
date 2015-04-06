@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ApplicationRepository.Models;
 using System.IO;
+using Infrastructure.Repository.Generic.Interface;
 
 namespace ApplicationRepository.Interface
 {

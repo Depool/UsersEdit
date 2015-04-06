@@ -13,6 +13,34 @@ namespace UsersEdit.App_Start
     using ApplicationRepository.Interface;
     using ApplicationRepository.Concrete.ADOSql;
     using ApplicationRepository.Concrete.Entity;
+    using Ninject.Modules;
+    using Ninject.Extensions.Factory;
+
+    public interface IRepositoryFactory
+    {
+        IUserRepository CreateUserRepository();
+        IImageRepository CreateImageRepository();
+        IRoleRepository CreateRoleRepository();
+        IMailMessageRepository CreateMailMessageRepository();
+    }
+
+    public class RepositoriesModule : NinjectModule
+    {
+        public override void Load()
+        {
+            Bind<IRoleRepository>().To<RoleRepository>();
+            Bind<IUserRepository>().To<UserRepository>();
+            Bind<IImageRepository>().To<ImageRepository>();
+            Bind<IMailMessageRepository>().To<MailMessageRepository>();
+
+            //Bind<IRoleRepository>().To<ADOSqlRoleRepository>();
+            //Bind<IUserRepository>().To<ADOSqlUserRepository>();
+            //Bind<IImageRepository>().To<ADOSqlImageRepository>();
+            //Bind<IMailMessageRepository>().To<ADOSqlMailMessageRepository>();
+            
+            Bind<IRepositoryFactory>().ToFactory();
+        }
+    }
 
     public static class NinjectWebCommon 
     {
@@ -25,6 +53,7 @@ namespace UsersEdit.App_Start
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
+
             bootstrapper.Initialize(CreateKernel);
         }
         
@@ -42,7 +71,7 @@ namespace UsersEdit.App_Start
         /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
         {
-            var kernel = new StandardKernel();
+            var kernel = new StandardKernel(new RepositoriesModule());
             try
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
@@ -64,13 +93,7 @@ namespace UsersEdit.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IUserRepository>().To<UserRepository>();
-            kernel.Bind<IImageRepository>().To<ImageRepository>();
-            kernel.Bind<IRoleRepository>().To<RoleRepository>();
 
-            //kernel.Bind<IUserRepository>().To<ADOSqlUserRepository>();
-            //kernel.Bind<IImageRepository>().To<ADOSqlImageRepository>();
-            //kernel.Bind<IRoleRepository>().To<ADOSqlRoleRepository>();
         }        
     }
 }

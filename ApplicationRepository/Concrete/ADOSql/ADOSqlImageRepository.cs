@@ -5,16 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using ApplicationRepository.Models;
 using ApplicationRepository.Interface;
-using ApplicationRepository.EntitiesConverter;
 using System.Data.SqlClient;
 using System.IO;
+using Infrastructure.Repository.Generic.Concrete.ADOSql;
+using Infrastructure.Repository.EntitiesConverter;
 
 namespace ApplicationRepository.Concrete.ADOSql
 {
     public sealed class ADOSqlImageRepository : ADOSqlGenericRepository<Image>, IImageRepository
     {
-        private int? maxId = null;
-
         public ADOSqlImageRepository() : base() { }
         public ADOSqlImageRepository(string connString) : base(connString) {}
 
@@ -22,20 +21,7 @@ namespace ApplicationRepository.Concrete.ADOSql
         {
            IEnumerable<Image> res = base.GetAll();
 
-           if (maxId == null)
-               maxId = res.Max(img => img.Id);
-
            return res;
-        }
-
-        public override void Add(Image instance)
-        {
-            if (maxId == null)
-                GetAll();
-            instance.Id = (int)maxId + 1;
-            maxId++;
-
-            base.Add(instance);
         }
 
         public Image GetById(int id)
@@ -70,11 +56,6 @@ namespace ApplicationRepository.Concrete.ADOSql
             if (content.Length > 0)
             {
                 Image newImage = new Image();
-
-                if (maxId == null)
-                    GetAll();
-                newImage.Id = (int)maxId + 1;
-                maxId++;
 
                 newImage.ImageName = name;
                 newImage.ImageContent = content;

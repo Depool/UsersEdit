@@ -51,6 +51,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Infrastructure">
+      <HintPath>..\Infrastructure\bin\Release\Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -64,65 +67,65 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Concrete\ADOSql\ADOSqlGenericRepository.cs" />
     <Compile Include="Concrete\ADOSql\ADOSqlImageRepository.cs" />
+    <Compile Include="Concrete\ADOSql\ADOSqlMailMessageRepository.cs" />
     <Compile Include="Concrete\ADOSql\ADOSqlRoleRepository.cs" />
     <Compile Include="Concrete\ADOSql\ADOSqlUserRepository.cs" />
-    <Compile Include="Concrete\Entity\GenericRepository.cs" />
     <Compile Include="Concrete\Entity\ImageRepository.cs" />
+    <Compile Include="Concrete\Entity\MailMessageRepository.cs" />
     <Compile Include="Concrete\Entity\RoleRepository.cs" />
     <Compile Include="Concrete\Entity\UserRepository.cs" />
-    <Compile Include="EntitiesConverter\EntitiesConverter.cs" />
-    <Compile Include="Interface\IGenericRepository.cs" />
     <Compile Include="Interface\IImageRepository.cs" />
+    <Compile Include="Interface\IMailMessageRepository.cs" />
     <Compile Include="Interface\IRoleRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Models\Image.cs">
-      <DependentUpon>UsersEDM.tt</DependentUpon>
+      <DependentUpon>UsersEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MailMessage.cs">
+      <DependentUpon>UsersEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
-      <DependentUpon>UsersEDM.tt</DependentUpon>
+      <DependentUpon>UsersEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>UsersEDM.tt</DependentUpon>
+      <DependentUpon>UsersEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UsersEDM.Context.cs">
+    <Compile Include="Models\UsersEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UsersEDM.Context.tt</DependentUpon>
+      <DependentUpon>UsersEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UsersEDM.cs">
+    <Compile Include="Models\UsersEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UsersEDM.tt</DependentUpon>
+      <DependentUpon>UsersEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UsersEDM.Designer.cs">
+    <Compile Include="Models\UsersEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UsersEDM.edmx</DependentUpon>
+      <DependentUpon>UsersEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryHelper\StaticQueryHelper.cs" />
-    <Compile Include="Shared\SharedDBContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="Models\UsersEDM.edmx">
+    <EntityDeploy Include="Models\UsersEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>UsersEDM.Designer.cs</LastGenOutput>
+      <LastGenOutput>UsersEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Models\UsersEDM.Context.tt">
+    <None Include="Models\UsersEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>UsersEDM.edmx</DependentUpon>
-      <LastGenOutput>UsersEDM.Context.cs</LastGenOutput>
+      <DependentUpon>UsersEntities.edmx</DependentUpon>
+      <LastGenOutput>UsersEntities.Context.cs</LastGenOutput>
     </None>
-    <None Include="Models\UsersEDM.edmx.diagram">
-      <DependentUpon>UsersEDM.edmx</DependentUpon>
+    <None Include="Models\UsersEntities.edmx.diagram">
+      <DependentUpon>UsersEntities.edmx</DependentUpon>
     </None>
-    <None Include="Models\UsersEDM.tt">
+    <None Include="Models\UsersEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>UsersEDM.edmx</DependentUpon>
-      <LastGenOutput>UsersEDM.cs</LastGenOutput>
+      <DependentUpon>UsersEntities.edmx</DependentUpon>
+      <LastGenOutput>UsersEntities.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using ApplicationRepository.Models;
+using Infrastructure.Repository.Generic.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace ApplicationRepository.Interface
 {
     public interface IRoleRepository : IGenericRepository<Role>
     {
+        Role GetById(int id);
     }
 }

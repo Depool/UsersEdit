@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ApplicationRepository.Models;
 using ApplicationRepository.Interface;
 using System.IO;
+using Infrastructure.Repository.Generic.Concrete.Entity;
 
 namespace ApplicationRepository.Concrete.Entity
 {
@@ -26,15 +27,6 @@ namespace ApplicationRepository.Concrete.Entity
                                            new MemoryStream();
 
             return stream;
-        }
-
-        public override void Add(User instance)
-        {
-            if (context.User.Count() == 0)
-                instance.Id = 1;
-            else
-                instance.Id = 1 + context.User.Max(usr => usr.Id);
-            base.Add(instance);
         }
     }
 }

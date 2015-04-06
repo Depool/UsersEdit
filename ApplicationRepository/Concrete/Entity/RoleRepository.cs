@@ -1,5 +1,6 @@
 ﻿using ApplicationRepository.Interface;
 using ApplicationRepository.Models;
+using Infrastructure.Repository.Generic.Concrete.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,9 @@ namespace ApplicationRepository.Concrete.Entity
     public class RoleRepository : GenericRepository<UsersEntities, Role>, IRoleRepository
     {
 
+        public Role GetById(int id)
+        {
+            return context.Role.Where(role => role.Id == id).FirstOrDefault();
+        }
     }
 }
