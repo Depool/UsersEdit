@@ -59,6 +59,7 @@ namespace UsersEdit.CustomMappers
             user.Email = vmUser.Email;
             user.DateUpdated = DateTime.Now;
             user.RoleId = vmUser.RoleId;
+            user.Login = vmUser.Login;
 
             user.Age = (byte)(((new DateTime(1, 1, 1) + (DateTime.Now - vmUser.BirthDay)).Year - 1));
         }
@@ -82,7 +83,6 @@ namespace UsersEdit.CustomMappers
             User user = new User();
             ConvertBasePropertiesFromViewToUser(vmUser, user);
 
-            user.Login = vmUser.Login;
             user.Password = vmUser.Password;
             user.DateCreated = DateTime.Now;
 
@@ -112,6 +112,7 @@ namespace UsersEdit.CustomMappers
             editUser.BlockDescription = user.BlockDescription;
             editUser.BirthDay = user.BirthDay;
             editUser.RoleId = user.RoleId;
+            editUser.Login = user.Login;
 
             return editUser;
         }

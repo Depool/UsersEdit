@@ -12,6 +12,11 @@ namespace UsersEdit.Models.ViewModels.Profile
     {
         [Required]
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "Login is required")]
+        [StringLength(25, ErrorMessage = "Login length must not exceed 25")]
+        [Remote("ValidateLogin", "Profile", ErrorMessage = "Such login already exists")]
+        public string Login { get; set; }
      
         public Nullable<byte> Age { get; set; }
         [RegularExpression(@"^((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$", ErrorMessage = "Incorrect phone number")]

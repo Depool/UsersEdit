@@ -10,7 +10,7 @@
     string year = Model.BirthDay.Month.ToString();
 }
 
-<h2>Edit user</h2>
+<h2>Edit user @Model.Login</h2>
 
 <script type="text/javascript">
     $(document).ready(
@@ -54,6 +54,7 @@
         <h4>Edit user</h4>
 
         @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Login)
 
         <div class="form-group">
             @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-2" })

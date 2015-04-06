@@ -13,10 +13,7 @@ namespace UsersEdit.Models.ViewModels.Profile
     [ModelBinder(typeof(DateTimeCustomBinder))]
     public class AddUserViewModel : AddEditViewModelBase
     {
-        [Required(ErrorMessage = "Login is required")]
-        [StringLength(25, ErrorMessage = "Login length must not exceed 25")]
-        [Remote("ValidateLogin", "Profile", ErrorMessage = "Such login already exists")]
-        public string Login { get; set; }
+
 
         [Required(ErrorMessage = "Password is required")]
         [StringLength(50, ErrorMessage = "Password length must not exceed 50")]
