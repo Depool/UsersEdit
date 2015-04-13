@@ -17,6 +17,8 @@ namespace Infrastructure.Repository.Generic.Concrete.ADOSql
     {
         protected Database dbEnterpriseInstance;
 
+        private T lastInsertedEntity = null;
+
         public ADOSqlGenericRepository()
         {
             DatabaseProviderFactory factory = new DatabaseProviderFactory();
@@ -89,7 +91,9 @@ namespace Infrastructure.Repository.Generic.Concrete.ADOSql
                     if ((record[key] as byte[]) != null && insert is SqlCommand)
                         (insert as SqlCommand).Parameters.Add(String.Format("@{0}", key), SqlDbType.VarBinary, -1).Value = record[key] as byte[];
                 dbEnterpriseInstance.ExecuteNonQuery(insert);
+                lastInsertedEntity = instance;
             }
+
         }
 
         public virtual void Modify(T instance)
@@ -156,6 +160,17 @@ namespace Infrastructure.Repository.Generic.Concrete.ADOSql
 
         public void SaveChanges()
         {
+            if (lastInsertedEntity != null && lastInsertedEntity.GetType().GetProperty("Id") != null)
+            {
+                int id = 0;
+                string query = String.Format("Select IDENT_CURRENT('{0}')", typeof(T).Name);
+                object res = dbEnterpriseInstance.ExecuteScalar(CommandType.Text, query);
+                id = System.Convert.ToInt32(res);
+                lastInsertedEntity.
+                    GetType().GetProperty("Id").SetValue(lastInsertedEntity,
+                                                                        id);
+                lastInsertedEntity = null;
+            }
             //????? solid break
         }
     }

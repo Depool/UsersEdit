@@ -201,6 +201,7 @@ namespace UsersEdit.Controllers
                 {
                     dalImage.Add(editedUserInfo.UserPhoto);
                     dalImage.SaveChanges();
+                    editedUserInfo.User.ImageId = editedUserInfo.UserPhoto.Id;
                 }
 
                 if (editedUserInfo.User != null)
