@@ -9,36 +9,26 @@ using ApplicationRepository.Interface;
 using System.Data.SqlClient;
 using Infrastructure.Repository.Generic.Concrete.ADOSql;
 using Infrastructure.Repository.EntitiesConverter;
+using System.Data;
 
 namespace ApplicationRepository.Concrete.ADOSql
 {
     public class ADOSqlRoleRepository : ADOSqlGenericRepository<Role>, IRoleRepository
     {
+
+
          public ADOSqlRoleRepository() : base() { }
-         public ADOSqlRoleRepository(string connString) : base(connString) {}
+         public ADOSqlRoleRepository(string connStringName) : base(connStringName) {}
 
          public Role GetById(int id)
          {
             Role res = null;
-            try
+            using (IDataReader reader = dbEnterpriseInstance.ExecuteReader(CommandType.Text, 
+                                                                          String.Format("SELECT * FROM [Role] WHERE Id = {0}", id)))
             {
-                conn.Open();
-                SqlCommand query = new SqlCommand(String.Format("SELECT * FROM [Role] WHERE Id = {0}", id), conn);
-
-                using (SqlDataReader reader = query.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        res = StaticEntitiesConverter.ReaderRowToEntity<Role>(reader);
-                    }
-                }
+                if (reader.Read())
+                 res = StaticEntitiesConverter.ReaderRowToEntity<Role>(reader);
             }
-            finally
-            {
-                conn.Close();
-            }
-
             return res;
         }
     }

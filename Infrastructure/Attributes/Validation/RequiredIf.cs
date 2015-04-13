@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using System.Reflection;
 
-namespace UsersEdit.CustomValidationAttributes
+namespace Infrastructure.Attributes.Validation
 {
     public class RequiredIf : RequiredAttribute, IClientValidatable
     {

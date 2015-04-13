@@ -11,7 +11,7 @@ using ApplicationRepository.Concrete.ADOSql;
 using UsersEdit.Models.ViewModels.Profile;
 using UsersEdit.CustomMappers;
 using UsersEdit.Authentication;
-using UsersEdit.CustomAttributes.Authorization;
+using Infrastructure.Attributes.Authorization;
 using Infrastructure.Algo;
 using ApplicationBusinessLayer.Mail;
 using UsersEdit.App_Start;

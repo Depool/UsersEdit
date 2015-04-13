@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace UsersEdit.Extensions
+namespace Infrastructure.Extensions.Html
 {
     public static class AExtensions
     {

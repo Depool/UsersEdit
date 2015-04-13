@@ -65,6 +65,14 @@
       <HintPath>..\Infrastructure\bin\Release\Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -215,14 +223,11 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
-    <Compile Include="CustomAttributes\Authorization\CustomAuthorized.cs" />
     <Compile Include="CustomAttributes\Error\CustomHandleErrorWithElmahAttribute.cs" />
     <Compile Include="CustomMappers\ProfileMappers.cs" />
-    <Compile Include="CustomAttributes\Validation\RequiredIf.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Infrastructure\Authentication\FormsAuthenticationService.cs" />
     <Compile Include="Infrastructure\Authentication\UserIdentity.cs" />
     <Compile Include="Infrastructure\Authentication\UserPrincipal.cs" />
@@ -269,6 +274,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\user.edit.events.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="404.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

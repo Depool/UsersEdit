@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace UsersEdit.CustomAttributes.Authorization
+namespace Infrastructure.Attributes.Authorization
 {
     public class CustomAuthorized : AuthorizeAttribute
     {

@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.IO;
 using Infrastructure.Repository.Generic.Concrete.ADOSql;
 using Infrastructure.Repository.EntitiesConverter;
+using System.Data;
 
 namespace ApplicationRepository.Concrete.ADOSql
 {
@@ -19,13 +20,13 @@ namespace ApplicationRepository.Concrete.ADOSql
 
         public ADOSqlUserRepository() : base()
         {
-            imageRep = new ADOSqlImageRepository(connectionString);
-            rolesRep = new ADOSqlRoleRepository(connectionString);
+            imageRep = new ADOSqlImageRepository();
+            rolesRep = new ADOSqlRoleRepository();
         }
-        public ADOSqlUserRepository(string connString) : base(connString) 
+        public ADOSqlUserRepository(string connStringName) : base(connStringName) 
         {
-            imageRep = new ADOSqlImageRepository(connectionString);
-            rolesRep = new ADOSqlRoleRepository(connectionString);
+            imageRep = new ADOSqlImageRepository(connStringName);
+            rolesRep = new ADOSqlRoleRepository(connStringName);
         }
         public override IEnumerable<User> GetAll()
         {
@@ -46,25 +47,12 @@ namespace ApplicationRepository.Concrete.ADOSql
         public User GetById(int id)
         {
             User res = null;
-            try
+            using (IDataReader reader = dbEnterpriseInstance.ExecuteReader(CommandType.Text, 
+                                                                           String.Format("SELECT * FROM [User] WHERE Id = {0}", id)))
             {
-                conn.Open();
-                SqlCommand query = new SqlCommand(String.Format("SELECT * FROM [User] WHERE Id = {0}", id), conn);
-
-                using (SqlDataReader reader = query.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        res = StaticEntitiesConverter.ReaderRowToEntity<User>(reader);
-                    }
-                }
+                if (reader.Read())
+                 res = StaticEntitiesConverter.ReaderRowToEntity<User>(reader);
             }
-            finally
-            {
-                conn.Close();
-            }
-
             if (res.ImageId != null)
                 res.Image = imageRep.GetById((int)res.ImageId);
 

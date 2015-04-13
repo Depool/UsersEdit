@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using UsersEdit.CustomValidationAttributes;
+using Infrastructure.Attributes.Validation;
 
 namespace UsersEdit.Models.ViewModels.Profile
 {

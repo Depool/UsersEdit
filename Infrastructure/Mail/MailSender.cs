@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net.Mail;
-using System.Configuration;
-using ApplicationRepository.Interface;
 
-namespace ApplicationBusinessLayer.Mail
+namespace Infrastructure.Mail
 {
-    public class MailSender
+    public static class MailSender
     {
         private static AppSettingsReader config = null;
 
-        public static AppSettingsReader Config
+        private static AppSettingsReader Config
         {
             get
             {
@@ -38,27 +37,13 @@ namespace ApplicationBusinessLayer.Mail
                 Port = (int)Config.GetValue("EmailPort", typeof(int)),
                 UseDefaultCredentials = false,
                 Credentials = new System.Net.NetworkCredential
-                    ((string)Config.GetValue("EmailName", typeof(string)), 
+                    ((string)Config.GetValue("EmailName", typeof(string)),
                      (string)Config.GetValue("EmailPassword", typeof(string))),
-               EnableSsl = true
+                EnableSsl = true
             };
 
             smtp.Send(mail);
         }
 
-        public static void SendMessagesFromQueue(IMailMessageRepository mailRep)
-        {
-            IEnumerable<ApplicationRepository.Models.MailMessage> messages = mailRep.GetAll();
-
-            foreach (ApplicationRepository.Models.MailMessage messageForAdmin in messages)
-            {
-                SendMail(messageForAdmin);
-            }
-
-            for (int i = messages.Count() - 1; i >= 0; --i)
-                mailRep.Delete(messages.ElementAt(i));
-
-            mailRep.SaveChanges();
-        }
     }
 }

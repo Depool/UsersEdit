@@ -12,7 +12,7 @@ namespace ApplicationRepository.Concrete.ADOSql
     public class ADOSqlMailMessageRepository : ADOSqlGenericRepository<MailMessage>, IMailMessageRepository
     {
         public ADOSqlMailMessageRepository() : base() { }
-        public ADOSqlMailMessageRepository(string connString) : base(connString) { }
+        public ADOSqlMailMessageRepository(string connStringName) : base(connStringName) { }
 
     }
 }

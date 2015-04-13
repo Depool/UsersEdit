@@ -52,7 +52,7 @@ namespace UsersEdit
         private static void runSendingMails()
         {
             IKernel kernel = new StandardKernel(new RepositoriesModule());
-            MailSender.SendMessagesFromQueue(kernel.Get<IRepositoryFactory>().CreateMailMessageRepository());
+            UserMailSender.SendMessagesFromQueue(kernel.Get<IRepositoryFactory>().CreateMailMessageRepository());
         }
 
         protected void FormsAuthentication_OnAuthenticate(Object sender, FormsAuthenticationEventArgs e)

@@ -31,15 +31,15 @@ namespace UsersEdit.App_Start
     {
         public override void Load()
         {
-            Bind<IRoleRepository>().To<RoleRepository>();
-            Bind<IUserRepository>().To<UserRepository>();
-            Bind<IImageRepository>().To<ImageRepository>();
-            Bind<IMailMessageRepository>().To<MailMessageRepository>();
+            //Bind<IRoleRepository>().To<RoleRepository>();
+            //Bind<IUserRepository>().To<UserRepository>();
+            //Bind<IImageRepository>().To<ImageRepository>();
+            //Bind<IMailMessageRepository>().To<MailMessageRepository>();
 
-            //Bind<IRoleRepository>().To<ADOSqlRoleRepository>();
-            //Bind<IUserRepository>().To<ADOSqlUserRepository>();
-            //Bind<IImageRepository>().To<ADOSqlImageRepository>();
-            //Bind<IMailMessageRepository>().To<ADOSqlMailMessageRepository>();
+            Bind<IRoleRepository>().To<ADOSqlRoleRepository>();
+            Bind<IUserRepository>().To<ADOSqlUserRepository>();
+            Bind<IImageRepository>().To<ADOSqlImageRepository>();
+            Bind<IMailMessageRepository>().To<ADOSqlMailMessageRepository>();
             
             Bind<IRepositoryFactory>().ToFactory();
         }

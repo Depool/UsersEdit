@@ -9,13 +9,14 @@ using System.Data.SqlClient;
 using System.IO;
 using Infrastructure.Repository.Generic.Concrete.ADOSql;
 using Infrastructure.Repository.EntitiesConverter;
+using System.Data;
 
 namespace ApplicationRepository.Concrete.ADOSql
 {
     public sealed class ADOSqlImageRepository : ADOSqlGenericRepository<Image>, IImageRepository
     {
         public ADOSqlImageRepository() : base() { }
-        public ADOSqlImageRepository(string connString) : base(connString) {}
+        public ADOSqlImageRepository(string connStringName) : base(connStringName) {}
 
         public override IEnumerable<Image> GetAll()
         {
@@ -27,27 +28,12 @@ namespace ApplicationRepository.Concrete.ADOSql
         public Image GetById(int id)
         {
             Image res = null;
-            try
+            using (IDataReader reader = dbEnterpriseInstance.ExecuteReader(CommandType.Text, 
+                                                                          String.Format("SELECT * FROM [Image] WHERE Id = {0}", id)))
             {
-                conn.Open();
-                SqlCommand query = new SqlCommand(String.Format("SELECT * FROM [Image] WHERE Id = {0}", id), conn);
-
-                using (SqlDataReader reader = query.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        res = StaticEntitiesConverter.ReaderRowToEntity<Image>(reader);
-                    }
-                }
+                if (reader.Read())
+                 res = StaticEntitiesConverter.ReaderRowToEntity<Image>(reader);
             }
-            finally
-            {
-                conn.Close();
-            }
-
-            //get image
-
             return res;
         }
 

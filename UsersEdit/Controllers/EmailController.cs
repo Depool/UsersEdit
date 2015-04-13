@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using UsersEdit.CustomAttributes.Authorization;
+using Infrastructure.Attributes.Validation;
 
 namespace UsersEdit.Controllers
 {
